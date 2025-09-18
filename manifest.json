@@ -1,10 +1,11 @@
 {
-  "name": "Random Sticky Note Positioner",
-  "id": "random-sticky-note-positioner",
+  "name": "Stack & Shuffle",
+  "id": "1550316115437545365",
   "api": "1.0.0",
   "main": "dist/code.js",
   "capabilities": [],
   "enableProposedApi": false,
+  "documentAccess": "dynamic-page",
   "editorType": [
     "figjam"
   ],
