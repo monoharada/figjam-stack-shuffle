@@ -1,6 +1,6 @@
 // Figma automatically loads the UI file specified in manifest.json
 // The __html__ variable is automatically populated by Figma
-figma.showUI(__html__, { width: 300, height: 280 });
+figma.showUI(__html__, { width: 320, height: 320 });
 
 // Log initial state
 console.log('Plugin started. Initial selection:', figma.currentPage.selection.length);
