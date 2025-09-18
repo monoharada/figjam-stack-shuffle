@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Sticky Note Positioner</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
+      color: #333333;
+      padding: 20px;
+      font-size: 14px;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .section {
+      margin-bottom: 20px;
+      padding: 12px;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .workflow-step {
+      display: flex;
+      margin-bottom: 8px;
+    }
+    .step-number {
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #5551ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .button:hover:not(:disabled) {
+      background: #4441cc;
+    }
+    .button:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+    .button.stack {
+      background: #4dabf7;
+    }
+    .button.stack:hover:not(:disabled) {
+      background: #3c9ae8;
+    }
+    .button.shuffle {
+      background: #f76707;
+    }
+    .button.shuffle:hover:not(:disabled) {
+      background: #e8590c;
+    }
+    .button.randomize {
+      background: #51cf66;
+    }
+    .button.randomize:hover:not(:disabled) {
+      background: #40c255;
+    }
+    .button.secondary {
+      background: #e9ecef;
+      color: #495057;
+    }
+    .button.secondary:hover {
+      background: #dee2e6;
+    }
+    .slider-container {
+      margin: 12px 0;
+    }
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .slider {
+      width: 100%;
+      margin: 10px 0;
+    }
+    .warning { color: #ff6b6b; }
+    .info { color: #4dabf7; }
+    .success { color: #51cf66; }
+    .hint { color: #868e96; font-size: 12px; margin-top: 4px; }
+    .action-count {
+      color: #868e96;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 12px;
+      transition: opacity 0.3s ease;
+    }
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: #51cf66;
+      color: white;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      animation: slideIn 0.3s ease;
+      z-index: 1000;
+    }
+    .notification.error {
+      background: #ff6b6b;
+    }
+    .notification.fade-out {
+      animation: slideOut 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔀 Stack & Shuffle</h1>
+
+  <div id="selection-info">
+    <p id="selection-status" class="warning">No elements selected</p>
+    <p id="selection-hint" class="hint">Please select elements in Figjam to continue</p>
+  </div>
+
+  <div id="actions" class="section">
+    <div class="section-title">Actions</div>
+
+    <button id="stack-btn" class="button stack" disabled>
+      📚 Stack Elements
+    </button>
+
+    <button id="shuffle-btn" class="button shuffle" disabled>
+      🔀 Shuffle Order
+    </button>
+  </div>
+
+
+  <!-- External script with same directory reference -->
+  <script type="text/javascript" src="./ui.js"></script>
+</body>
+</html>

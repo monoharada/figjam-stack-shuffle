@@ -1,0 +1,15 @@
+{
+  "name": "Random Sticky Note Positioner",
+  "id": "random-sticky-note-positioner",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figjam"
+  ],
+  "ui": "dist/ui.html",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}

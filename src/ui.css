@@ -1,0 +1,218 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: #ffffff;
+  color: #333333;
+  padding: 16px;
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #000000;
+}
+
+.section {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #666666;
+}
+
+#selection-info {
+  padding: 12px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.warning {
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
+.info {
+  color: #4dabf7;
+  font-weight: 500;
+}
+
+.success {
+  color: #51cf66;
+  font-weight: 500;
+}
+
+.hint {
+  color: #868e96;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #5551ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover {
+  background: #4441cc;
+}
+
+.button:active {
+  background: #3331aa;
+}
+
+.button.secondary {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.button.secondary:hover {
+  background: #dee2e6;
+}
+
+.button.stack {
+  background: #4dabf7;
+}
+
+.button.stack:hover {
+  background: #339af0;
+}
+
+.button.randomize {
+  background: #51cf66;
+}
+
+.button.randomize:hover {
+  background: #40c057;
+}
+
+.slider-container {
+  margin-bottom: 16px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #666666;
+}
+
+.slider {
+  width: 100%;
+  height: 32px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  outline: none;
+}
+
+.slider::-webkit-slider-track {
+  width: 100%;
+  height: 4px;
+  background: #e9ecef;
+  border-radius: 2px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #5551ff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #4441cc;
+}
+
+.notification {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: #51cf66;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 1000;
+  animation: slide-down 0.3s ease;
+}
+
+.notification.error {
+  background: #ff6b6b;
+}
+
+.notification.fade-out {
+  animation: fade-out 0.3s ease;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+#actions {
+  transition: opacity 0.3s;
+}
+
+.workflow-step {
+  padding: 12px;
+  background: #f8f9fa;
+  border-left: 3px solid #5551ff;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.step-number {
+  font-weight: 600;
+  color: #5551ff;
+  margin-bottom: 4px;
+}
+
+.step-description {
+  color: #666666;
+  font-size: 13px;
+}

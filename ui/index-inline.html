@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Sticky Note Positioner</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
+      color: #333333;
+      padding: 16px;
+      font-size: 14px;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .section {
+      margin-bottom: 20px;
+      padding: 12px;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .workflow-step {
+      display: flex;
+      margin-bottom: 8px;
+    }
+    .step-number {
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #5551ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .button:hover {
+      background: #4441cc;
+    }
+    .button:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+    .button.stack {
+      background: #4dabf7;
+    }
+    .button.stack:hover:not(:disabled) {
+      background: #3c9ae8;
+    }
+    .button.randomize {
+      background: #51cf66;
+    }
+    .button.randomize:hover:not(:disabled) {
+      background: #40c255;
+    }
+    .button.secondary {
+      background: #e9ecef;
+      color: #495057;
+    }
+    .button.secondary:hover {
+      background: #dee2e6;
+    }
+    .slider-container {
+      margin: 12px 0;
+    }
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .slider {
+      width: 100%;
+      margin: 10px 0;
+    }
+    .warning { color: #ff6b6b; }
+    .info { color: #4dabf7; }
+    .success { color: #51cf66; }
+    .hint { color: #868e96; font-size: 12px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h1>🎲 Random Positioner</h1>
+
+  <div id="selection-info">
+    <p id="selection-status" class="warning">No elements selected</p>
+    <p id="selection-hint" class="hint">Please select elements in Figjam to continue</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Workflow</div>
+    <div class="workflow-step">
+      <div class="step-number">Step 1:</div>
+      <div class="step-description">Stack all selected elements at the same position</div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-number">Step 2:</div>
+      <div class="step-description">Randomize their positions within the specified radius</div>
+    </div>
+  </div>
+
+  <div id="actions" class="section">
+    <div class="section-title">Actions</div>
+
+    <button id="stack-btn" class="button stack" disabled>
+      📚 Stack Elements
+    </button>
+
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Randomize Radius</span>
+        <span id="radius-value">500px</span>
+      </div>
+      <input
+        type="range"
+        id="radius-slider"
+        class="slider"
+        min="100"
+        max="2000"
+        value="500"
+        step="50"
+      >
+    </div>
+
+    <button id="randomize-btn" class="button randomize" disabled>
+      🎲 Randomize Positions
+    </button>
+  </div>
+
+  <button id="cancel-btn" class="button secondary">
+    Cancel
+  </button>
+
+  <script>
+    // Inline JavaScript - no external script loading issues
+    console.log('UI Script starting execution');
+
+    let selectedCount = 0;
+
+    // Function to update UI based on selection count
+    function updateSelectionUI(count) {
+      console.log('Updating UI with selection count:', count);
+      selectedCount = count;
+
+      const statusEl = document.getElementById('selection-status');
+      const hintEl = document.getElementById('selection-hint');
+      const stackBtn = document.getElementById('stack-btn');
+      const randomizeBtn = document.getElementById('randomize-btn');
+
+      if (!statusEl || !hintEl || !stackBtn || !randomizeBtn) {
+        console.error('Could not find UI elements');
+        return;
+      }
+
+      if (count === 0) {
+        statusEl.textContent = 'No elements selected';
+        statusEl.className = 'warning';
+        hintEl.textContent = 'Please select elements in Figjam to continue';
+        stackBtn.disabled = true;
+        randomizeBtn.disabled = true;
+      } else if (count === 1) {
+        statusEl.textContent = '1 element selected';
+        statusEl.className = 'warning';
+        hintEl.textContent = 'Please select at least 2 elements to stack and randomize';
+        stackBtn.disabled = true;
+        randomizeBtn.disabled = true;
+      } else {
+        statusEl.textContent = `${count} elements selected`;
+        statusEl.className = 'success';
+        hintEl.textContent = 'Ready to stack and randomize positions';
+        stackBtn.disabled = false;
+        randomizeBtn.disabled = false;
+      }
+    }
+
+    // Send ready message to plugin
+    console.log('Sending ui-ready message to plugin');
+    parent.postMessage({ pluginMessage: { type: 'ui-ready' } }, '*');
+
+    // Listen for messages from the plugin
+    window.onmessage = (event) => {
+      console.log('UI received message:', event.data);
+      const msg = event.data.pluginMessage;
+
+      if (!msg) return;
+
+      if (msg.type === 'selection-changed') {
+        updateSelectionUI(msg.count);
+      } else if (msg.type === 'stack-complete') {
+        console.log('Stack complete:', msg);
+        const statusEl = document.getElementById('selection-status');
+        if (statusEl) {
+          statusEl.textContent = `✅ ${msg.count} elements stacked successfully`;
+          statusEl.className = 'success';
+        }
+      } else if (msg.type === 'randomize-complete') {
+        console.log('Randomize complete:', msg);
+        const statusEl = document.getElementById('selection-status');
+        if (statusEl) {
+          statusEl.textContent = `✅ ${msg.count} elements randomized successfully`;
+          statusEl.className = 'success';
+        }
+      } else if (msg.type === 'error') {
+        console.error('Error from plugin:', msg.message);
+        const statusEl = document.getElementById('selection-status');
+        if (statusEl) {
+          statusEl.textContent = msg.message;
+          statusEl.className = 'warning';
+        }
+      }
+    };
+
+    // Set up button event listeners
+    document.getElementById('stack-btn').addEventListener('click', () => {
+      console.log('Stack button clicked');
+      parent.postMessage({
+        pluginMessage: { type: 'stack-elements' }
+      }, '*');
+    });
+
+    document.getElementById('randomize-btn').addEventListener('click', () => {
+      const radius = document.getElementById('radius-slider').value;
+      console.log('Randomize button clicked with radius:', radius);
+      parent.postMessage({
+        pluginMessage: {
+          type: 'randomize-positions',
+          data: { radius: parseInt(radius) }
+        }
+      }, '*');
+    });
+
+    document.getElementById('cancel-btn').addEventListener('click', () => {
+      console.log('Cancel button clicked');
+      parent.postMessage({
+        pluginMessage: { type: 'cancel' }
+      }, '*');
+    });
+
+    // Update radius value display
+    const radiusSlider = document.getElementById('radius-slider');
+    const radiusValue = document.getElementById('radius-value');
+
+    radiusSlider.addEventListener('input', (e) => {
+      radiusValue.textContent = e.target.value + 'px';
+    });
+
+    console.log('UI initialization complete');
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Plugin</title>
+</head>
+<body>
+  <h1>Test Plugin</h1>
+  <button id="test-btn">Test Button</button>
+
+  <script>
+    console.log('Test script loaded');
+
+    document.getElementById('test-btn').addEventListener('click', () => {
+      console.log('Test button clicked');
+      parent.postMessage({ pluginMessage: { type: 'test' } }, '*');
+    });
+
+    // Test immediate message
+    setTimeout(() => {
+      console.log('Sending test message');
+      parent.postMessage({ pluginMessage: { type: 'test-immediate' } }, '*');
+    }, 500);
+  </script>
+</body>
+</html>

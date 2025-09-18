@@ -1,0 +1,23 @@
+{
+  "name": "figjam-random-sticky-note-positioner",
+  "version": "1.0.0",
+  "description": "Figjam plugin to overlap selected elements and randomize their positions",
+  "main": "dist/code.js",
+  "scripts": {
+    "build": "node build.js",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.90.0",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "esbuild": "^0.25.10",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  }
+}
